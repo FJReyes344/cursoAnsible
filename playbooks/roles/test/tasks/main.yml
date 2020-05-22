@@ -1,0 +1,11 @@
+---
+# TASKS
+- name: Instalar nginx
+  apt:
+    name: nginx
+        state: present
+        
+ - name: Instalar curl
+  apt:
+    name: curl
+    state: present

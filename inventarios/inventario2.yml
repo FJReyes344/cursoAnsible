@@ -1,0 +1,9 @@
+all:
+    hosts: 
+        ubunt01:
+            sistema2: 18.04
+    children:
+        masubuntu:
+            hosts:
+    vars:
+        sistema: Ubuntu

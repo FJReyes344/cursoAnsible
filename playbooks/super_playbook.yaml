@@ -1,0 +1,112 @@
+---
+- hosts: all
+  remote_user: root
+  order: inventory
+  vars:
+    variable1: Hola amigo!
+    variable2: 22
+    variable3:
+      subvalor1: 1
+      subvalor2: 2
+    
+  tasks:
+    - name: Mi primera tarea
+      debug:
+        msg: "{{ variable1 }} Voy a comenzar una tarea"
+    
+    - name: Mi segunda tarea
+      debug:
+        msg: !unsafe "El ninja va todo con dobles llaves {{ aqui va mi variable }}"
+    
+    - name: Mi tercera tarea
+      debug:
+        msg: "{{ variable1 }} voy a comenzar la tarea {{ 1 }}, en el servidor {{ sistema2 }} {{ sistema2 }}"
+      
+      
+    - name: Mi cuarta tarea
+      debug:
+        msg: >
+            "Valores del diccionario {{ variable3.subvalor2 }}"
+            "Valores del diccionario {{ variable3.subvalor2 }}"
+            
+            
+    - name: Mi tarea de facts
+      debug:
+#              msg: "{{ ansible_facts }}"
+            var: ansible_facts.dns.nameservers[0]
+#             var: ansible_facts['dns'].nameservers[0]   
+
+    - name: Mi tarea condicional
+      debug:
+            msg: "He entrado !!!"
+#      when: ansible_facts.distribution == 'Ubuntu' and variable2 == 2
+#      when: 
+#        - ansible_facts.distribution == 'Ubuntu'
+#        - variable == 22
+    
+    - name: Mi tarea normalita
+      debug:
+           msg: "Me ejecuto normalmente 1"
+      changed_when: False
+      notify: tarea opcional l
+      
+      
+    - name: Tarea normalita 2
+      debug:
+          msg: "Me ejecuto normalmente 2"
+      changed_when: True
+      notify: mievento
+      
+    - name: Mi tarea explosiva
+      shell:
+        cmd: uname
+      ignore_errors: True
+      failed_when: explosiva.rc > 100
+      register: explosiva
+      
+    - name: Otra tarea explosiva
+      debug:
+        msg: "{{ explosiva.stdout }}"
+      when: explosiva.rc == 0
+ 
+ 
+    - name: Una tarea que comprueba un texto
+      debug:
+        msg: "Ahora voy a hacer algo con el puerto"La salida da error de la tarea explosiva contiene 'not found'
+      #when: "'found' not in explosiva.stderr"
+      when: explosiva.stderr is match(".*not.*")
+      #when: explosiva.stderr is search("n.t f..nd")
+      
+    - name: Primer bucle
+      debug:
+        msg: " Veamos las CPS: {{ item }}  {{}item}"
+      loop: "{{ ansible_facts.processor}"
+      
+      vars:
+        puertos:
+          - 80
+          - 81
+          - 83
+          
+          
+#    
+  handlers:
+    - name: tarea opcional 1
+      debug:
+           msg: "Me ejecuto opcionalmente 1"
+      listen: mievento
+      
+    - name: tarea opciona2
+      debug:
+           msg: "Me ejecuto opcionalmente 2"
+      listen: mievento
+      
+      
+      ### ExPRESIONES PARA UTILIZAR EN LOS WHEN: when, failed_when_changed_when
+      
+       # explosiva is failed, succeded, skipped, changed
+      
+     # Otras expresions 
+      
+      
+      

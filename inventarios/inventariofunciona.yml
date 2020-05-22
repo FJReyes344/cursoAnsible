@@ -1,0 +1,11 @@
+all: # GRUPO RAIZ
+     children: # SUBGRUPOS
+        Ubuntu: # Linux
+            hosts: # SERVIDORES SUELTOS DENTRO DEL GRUPO
+                ubuntu0[1:2]: # Alias
+                        servidor[1:10].prod:
+                            ansible_connection: ssh # o paramiko (BSD) |local| -> para mi maquina. docker-> para evitar configurar ssh en la maquina
+                            ansible_user: root # usuario con que ansible se conect
+                            ansible_become: true # Ejecutar como sudo
+                            ansible_port: 22 # Puerto para ssh o wrm, ejecuar como sudo
+                            ansible_python_interpreter: /usr/bin/python3 # Ruta del ejecutable de python en el remoto

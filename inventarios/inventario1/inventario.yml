@@ -1,0 +1,67 @@
+# Comentarios utilizando #
+clave:
+
+Atencion a los espacios pueden dar problemas espacios o tabuladores
+
+
+clave1:
+---
+        clave2:
+        
+        
+        los guiones --- es una separacion de ficheros son ficheros distintos 
+        
+        * se ejecutarian en orden secuencial ejemplo
+        
+        tarea1:
+            clave1:
+        
+---
+        
+        tarea1:
+        
+        
+        
+        Fichero de yaml como quiere que sea segun ansible.
+        
+     all: # TODOS LOS SERVIDORES PERTENECEN A ALL
+        hosts: #SERVIDORES SUELTOS DENTRO DEL GRUPO
+            servidor.prod.prod:
+            servidor.prod.prod:
+            servidor.prod.prod:
+        children:
+            webservers:
+                hosts:
+            #IPS o NOMBRES por LOTES
+        
+        ungrouped: #SERVIDORES SUELTOS
+        
+        
+        all - grupo raiz
+        hosts - servidores sueltos dentro del grupo
+        children -definir subgrupos
+        ungrouped - servidores sin grupo
+        
+        .......................................................
+        
+        all: # GRUPO RAIZ
+            hosts: # SERVIDORES SUELTOS DENTRO DEL GRUPO
+                servidor.prod: # Alias
+                    ansible_connection: ssh # o paramiko (BSD) |local| -> para mi maquina. docker-> para evitar configurar ssh en la maquina
+                    ansible_hosts: 192.168.1.23 # o un nombre
+                    ansible_user: operador # usuario con que ansible se conecta
+                    ansible_password: XXX #contraseña, se puede utilziar un vault
+                    ansible_port: 22 # Ejecuar como sudo
+                    ansible_become: true # Ejecutar como sudo
+                    ansible_python_interpreter: /usr/bin/python3 # Ruta del ejecutable de python en el remoto
+                servidor.desa:
+                servidor.inte:
+            children: # SUBGRUPOS
+                webservers: # Linux
+                    hosts:
+                        servidor[1:10].prod:
+                        servidor[1:10].prod:
+                        servidor[1:10].prod:
+                    
+                        
+        

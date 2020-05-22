@@ -1,0 +1,21 @@
+# Este es mi fichero de playbook
+--- # Crear un nuevo play
+# Contra quien opero
+- hosts: all
+
+ # Opcion de conexion
+ remote_user:
+ oder: inventory (reverse_inventory | sorted | reverse_sorted| shufle) #Oorden en el que quiero que se ejecuten las maquinas
+# Ansible ejecuta los tags de manera secuencial peor en paralelos sobre diferentes maquinas
+# Por defecto lo hace de 5 en 5
+
+# Variables TODO
+
+# Comienza la definicion de tareas
+tasks:
+
+    # Comienza una tareas
+    - name: Mi primera tareas
+    debug:
+        param1: valor
+            msg: Hola, va a comenzar una tarea # En caso del debug consulta ese modulo en la web.
